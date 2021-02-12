@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebStorage;
@@ -71,6 +72,13 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
       resultMsg.sendToTarget();
 
       return true;
+    }
+
+    @Override
+    public void onPermissionRequest(PermissionRequest request) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        request.grant(request.getResources());
+      }
     }
   }
 
