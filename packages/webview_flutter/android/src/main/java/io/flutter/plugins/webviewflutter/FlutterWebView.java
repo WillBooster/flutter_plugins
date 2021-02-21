@@ -80,6 +80,11 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         request.grant(request.getResources());
       }
     }
+
+    @Override
+    public void onProgressChanged(WebView view, int progress) {
+      flutterWebViewClient.onLoadingProgress(progress);
+    }
   }
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -374,6 +379,9 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.setWebContentsDebuggingEnabled(debuggingEnabled);
           }
+          break;
+        case "hasProgressTracking":
+          flutterWebViewClient.hasProgressTracking = (boolean) settings.get(key);
           break;
         case "gestureNavigationEnabled":
           break;

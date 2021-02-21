@@ -32,6 +32,7 @@ readonly NNBD_PLUGINS_LIST=(
   "video_player"
   "webview_flutter"
   "wifi_info_flutter"
+  "in_app_purchase"
 )
 
 # This list contains the list of plugins that have *not* been
@@ -39,13 +40,8 @@ readonly NNBD_PLUGINS_LIST=(
 # building the all plugins app. This list should be kept empty.
 
 readonly NON_NNBD_PLUGINS_LIST=(
-  #"camera"
-  "google_maps_flutter"
-  # "image_picker"
-  # "in_app_purchase"
-  # "quick_actions"
-  # "sensors"
-  # "wifi_info_flutter"
+  "extension_google_sign_in_as_googleapis_auth"
+  "google_maps_flutter_web" # Not yet migrated.
 )
 
 export EXCLUDED_PLUGINS_FROM_STABLE=$(IFS=, ; echo "${NNBD_PLUGINS_LIST[*]}")
