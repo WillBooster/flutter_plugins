@@ -1,8 +1,8 @@
-## 2.0.0-nullsafety.1
+## 2.0.1
 
-* Fix crash when list string's type is dynamic.
+* Removed deprecated [AsyncTask](https://developer.android.com/reference/android/os/AsyncTask) was deprecated in API level 30 ([#3481](https://github.com/flutter/plugins/pull/3481))
 
-## 2.0.0-nullsafety
+## 2.0.0
 
 * Migrate to null-safety.
 
