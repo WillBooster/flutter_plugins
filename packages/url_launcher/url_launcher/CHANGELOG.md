@@ -1,3 +1,12 @@
+## 6.0.2
+
+* Update platform_plugin_interface version requirement.
+
+## 6.0.1
+
+* Update result to `True` on iOS when the url was loaded successfully.
+* Added a README note about required applications.
+
 ## 6.0.0
 
 * Migrate to null safety.

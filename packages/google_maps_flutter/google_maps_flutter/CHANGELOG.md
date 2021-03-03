@@ -1,8 +1,8 @@
-## 2.0.0-nullsafety.1
+## 2.0.1
 
-* Fix in example app to properly change marker icon.
+* Update platform_plugin_interface version requirement.
 
-## 2.0.0-nullsafety
+## 2.0.0
 
 * Migrate to null-safety
 * BREAKING CHANGE: Passing an unknown map object ID (e.g., MarkerId) to a
