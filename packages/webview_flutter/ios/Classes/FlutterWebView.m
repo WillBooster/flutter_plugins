@@ -57,6 +57,11 @@
 
 @end
 
+@interface FLTWebViewController () <WKUIDelegate> {
+  UIViewController* _viewController;
+}
+@end
+
 @implementation FLTWebViewController {
   FLTWKWebView* _webView;
   int64_t _viewId;
@@ -109,6 +114,12 @@
         _webView.scrollView.automaticallyAdjustsScrollIndicatorInsets = NO;
       }
     }
+
+    _viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    UIViewController* presentedViewController = _viewController.presentedViewController;
+    UIViewController* currentViewController =
+        presentedViewController != nil ? presentedViewController : _viewController;
+    [currentViewController.view addSubview:_webView];
 
     [self applySettings:settings];
     // TODO(amirh): return an error if apply settings failed once it's possible to do so.
@@ -472,6 +483,36 @@
   }
 
   return nil;
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler
+{
+  UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                 message:message
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+
+  [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    completionHandler();
+  }]];
+
+  [_viewController presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler
+{
+  UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                 message:message
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+
+  [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    completionHandler(NO);
+  }]];
+
+  [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    completionHandler(YES);
+  }]];
+
+  [_viewController presentViewController:alert animated:YES completion:nil];
 }
 
 @end
