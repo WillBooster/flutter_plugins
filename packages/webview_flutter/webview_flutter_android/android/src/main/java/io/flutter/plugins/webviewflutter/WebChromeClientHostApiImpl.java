@@ -4,8 +4,11 @@
 
 package io.flutter.plugins.webviewflutter;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
+import android.webkit.PermissionRequest;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -98,6 +101,32 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
       resultMsg.sendToTarget();
 
       return true;
+    }
+
+    @Override
+    public boolean onShowFileChooser(
+        WebView webView,
+        ValueCallback<Uri[]> filePathCallback,
+        FileChooserParams fileChooserParams) {
+      // info as of 2021-03-08:
+      // don't use fileChooserParams.getTitle() as it is (always? on Mi 9T Pro Android 10 at least) null
+      // don't use fileChooserParams.isCaptureEnabled() as it is (always? on Mi 9T Pro Android 10 at least) false, even when the file upload allows images or any file
+      final boolean allowMultipleFiles =
+          Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+              && fileChooserParams.getMode() == FileChooserParams.MODE_OPEN_MULTIPLE;
+      final String[] acceptTypes =
+          Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+              ? fileChooserParams.getAcceptTypes()
+              : new String[0];
+      new FileChooserLauncher(webView.getContext(), allowMultipleFiles, filePathCallback, acceptTypes).start();
+      return true;
+    }
+
+    @Override
+    public void onPermissionRequest(PermissionRequest request) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        request.grant(request.getResources());
+      }
     }
 
     @Override
