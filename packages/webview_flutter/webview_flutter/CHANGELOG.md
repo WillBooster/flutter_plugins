@@ -1,3 +1,27 @@
+## 2.8.0
+
+* Adds support for the `loadFlutterAsset` method.
+
+## 2.7.0
+
+* Adds `setCookie` to CookieManager.
+* CreationParams now supports setting `initialCookies`.
+
+## 2.6.0
+
+* Adds support for the `loadRequest` method.
+
+## 2.5.0
+
+* Adds an option to set the background color of the webview.
+
+## 2.4.0
+
+* Adds support for the `loadFile` and `loadHtmlString` methods.
+* Updates example app Android compileSdkVersion to 31.
+* Integration test fixes.
+* Updates code for new analysis options.
+
 ## 2.3.1
 
 * Add iOS-specific note to set `JavascriptMode.unrestricted` in order to set `zoomEnabled: false`.
